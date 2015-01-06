@@ -61,6 +61,6 @@
 				<param name="android-package" value="org.purimize.cordova.sharedsettings" />
 			</feature>
 		</config-file>
-		<source-file src="src/SharedSettings.java" target-dir="src/android/org/purimize/cordova/sharedsettings" />
+		<source-file src="src/android/SharedSettings.java" target-dir="src/android/org/purimize/cordova/sharedsettings" />
 	</platform>
 </plugin>
