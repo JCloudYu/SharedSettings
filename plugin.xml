@@ -25,16 +25,16 @@
 <plugin
 		xmlns="http://apache.org/cordova/ns/plugins/1.0"
 		xmlns:android="http://schemas.android.com/apk/res/android"
-		id="com.purimize.sharedsettings"
-		version="0.1.4">
+		id="org.purimize.sharedsettings"
+		version="0.1.0">
 	<name>SharedSettings</name>
 	<description>This plugin allows you to store persistant key/value settings</description>
 	<author>JCloudYu</author>
 	<license>MIT</license>
 	<keywords>Settings</keywords>
 	
-	<repo>https://github.com/nchutchind/Streaming-Media-Cordova-Plugin.git</repo>
-	<issue>https://github.com/nchutchind/Streaming-Media-Cordova-Plugin/issues</issue>
+	<repo>https://github.com/JCloudYu/SharedSettings.git</repo>
+	<issue>https://github.com/JCloudYu/SharedSettings/issues</issue>
 
 	<engines><engine name="cordova" version=">=3.0.0" /></engines>
 
@@ -58,9 +58,9 @@
 	<platform name="android">
 		<config-file target="res/xml/config.xml" parent="/*">
 			<feature name="StreamingMedia">
-				<param name="android-package" value="com.purimize.SharedSettings" />
+				<param name="android-package" value="org.purimize.SharedSettings" />
 			</feature>
 		</config-file>
-		<source-file src="src/android/com/purimize/SharedSettings.java" target-dir="src/android/com/purimize" />
+		<source-file src="src/android/org/purimize/SharedSettings.java" target-dir="src/android/org/purimize" />
 	</platform>
 </plugin>
