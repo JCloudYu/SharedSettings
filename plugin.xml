@@ -57,7 +57,7 @@
 	<!-- android -->
 	<platform name="android">
 		<config-file target="res/xml/config.xml" parent="/*">
-			<feature name="StreamingMedia">
+			<feature name="SharedSettings">
 				<param name="android-package" value="org.purimize.cordova.sharedsettings" />
 			</feature>
 		</config-file>
