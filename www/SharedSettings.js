@@ -1,4 +1,4 @@
-cordova.define("org.apache.cordova.splashscreen.SplashScreen", function(require, exports, module) {
+cordova.define("org.purimize.cordova.sharedsettings", function(require, exports, module) {
 /*
     The MIT License (MIT)
 

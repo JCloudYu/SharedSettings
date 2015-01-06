@@ -21,7 +21,7 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 */
-package com.purimize;
+package org.purimize.cordova.sharedsettings;
 
 import android.content.Context;
 import android.content.SharedPreferences;
