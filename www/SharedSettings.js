@@ -1,4 +1,3 @@
-cordova.define("org.purimize.cordova.sharedsettings", function(require, exports, module) {
 /*
     The MIT License (MIT)
 
@@ -22,41 +21,39 @@ cordova.define("org.purimize.cordova.sharedsettings", function(require, exports,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 */
-	var exec = require('cordova/exec');
-	
-	module.exports = {
-		get: function(name, success ,fail) {
-			success = success || doNothing;
-			fail = fail || doNothing;
-		
-			exec(success, fail, "SharedSettings", "getSetting", [ name ]);
-		},
-		set: function(name, value, success ,fail) {
-			success = success || doNothing;
-			fail = fail || doNothing;
-		
-			exec(success, fail, "SharedSettings", "setSetting", [ name, value ]);
-		},
-		query: function(ary, success ,fail) {
-			success = success || doNothing;
-			fail = fail || doNothing;
-		
-			exec(success, fail, "SharedSettings", "querySettings", [ ary ]);
-		},
-		patch: function(dict, success ,fail) {
-			success = success || doNothing;
-			fail = fail || doNothing;
-		
-			exec(success, fail, "SharedSettings", "patchSettings", [ dict ]);
-		},
-		clear: function(success ,fail) {
-			success = success || doNothing;
-			fail = fail || doNothing;
-		
-			exec(success, fail, "SharedSettings", "clearSettings", [ ]);
-		}
-	};
-	
-	function doNothing(){}
+var exec = require('cordova/exec');
 
-});
+module.exports = {
+	get: function(name, success ,fail) {
+		success = success || doNothing;
+		fail = fail || doNothing;
+	
+		exec(success, fail, "SharedSettings", "getSetting", [ name ]);
+	},
+	set: function(name, value, success ,fail) {
+		success = success || doNothing;
+		fail = fail || doNothing;
+	
+		exec(success, fail, "SharedSettings", "setSetting", [ name, value ]);
+	},
+	query: function(ary, success ,fail) {
+		success = success || doNothing;
+		fail = fail || doNothing;
+	
+		exec(success, fail, "SharedSettings", "querySettings", [ ary ]);
+	},
+	patch: function(dict, success ,fail) {
+		success = success || doNothing;
+		fail = fail || doNothing;
+	
+		exec(success, fail, "SharedSettings", "patchSettings", [ dict ]);
+	},
+	clear: function(success ,fail) {
+		success = success || doNothing;
+		fail = fail || doNothing;
+	
+		exec(success, fail, "SharedSettings", "clearSettings", [ ]);
+	}
+};
+
+function doNothing(){}
