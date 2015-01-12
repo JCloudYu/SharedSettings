@@ -33,7 +33,6 @@
 
 - (NSUserDefaults *)getDefaults:(NSMutableArray *)arguments
 {
-	NSUserDefaults *defaults = nil;
 	NSString* domain = arguments[0];
 	[arguments removeObjectAtIndex:0];
 	
@@ -52,12 +51,13 @@
 - (void)getSetting:(CDVInvokedUrlCommand*)command
 {
 	NSMutableArray *arguments = [NSMutableArray arrayWithArray:command.arguments];
+	NSUserDefaults *_defaults = [self getDefaults:arguments];
 	
 	id key = arguments[0];
 	
 	if ( [key isKindOfClass:[NSString class]] )
 	{
-		NSString* value = [[self getDefaults:arguments] stringForKey:key];
+		NSString* value = [_defaults stringForKey:key];
 		if ( value )
 		{
 			[self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:value]
@@ -73,6 +73,7 @@
 - (void)setSetting:(CDVInvokedUrlCommand*)command
 {
 	NSMutableArray *arguments = [NSMutableArray arrayWithArray:command.arguments];
+	NSUserDefaults *_defaults = [self getDefaults:arguments];
 	
 	id key = arguments[0];
 	
@@ -84,17 +85,17 @@
 	}
 	
 	id input = arguments[1];
-	NSString* prev  = [[self getDefaults:arguments] stringForKey:key];
+	NSString* prev  = [_defaults stringForKey:key];
 	
 	if ( !input || [input isKindOfClass:[NSNull class]] )
 	{
-		[[self getDefaults:arguments] removeObjectForKey:key];
+		[_defaults removeObjectForKey:key];
 		prev = @"";
 	}
 	else
-		[[self getDefaults:arguments] setObject:[NSString stringWithFormat:@"%@", input] forKey:key];
+		[_defaults setObject:[NSString stringWithFormat:@"%@", input] forKey:key];
 	
-	[[self getDefaults:arguments] synchronize];
+	[_defaults synchronize];
 	
 	[self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:(prev) ? prev : @""]
 								callbackId:command.callbackId];
@@ -103,6 +104,7 @@
 - (void)querySettings:(CDVInvokedUrlCommand*)command
 {
 	NSMutableArray *arguments = [NSMutableArray arrayWithArray:command.arguments];
+	NSUserDefaults *_defaults = [self getDefaults:arguments];
 	
 	id ikeys = arguments[0];
 	
@@ -117,7 +119,7 @@
 	NSMutableDictionary* values = [NSMutableDictionary dictionary];
 	for ( NSString* key in reqKeys )
 	{
-		id val = [[self getDefaults:arguments] stringForKey:key];
+		id val = [_defaults stringForKey:key];
 		values[key] = val ? val : @"";
 	}
 	
@@ -128,6 +130,7 @@
 - (void)patchSettings:(CDVInvokedUrlCommand*)command
 {
 	NSMutableArray *arguments = [NSMutableArray arrayWithArray:command.arguments];
+	NSUserDefaults *_defaults = [self getDefaults:arguments];
 	
 	id keyValues = arguments[0];
 	
@@ -143,18 +146,18 @@
 	NSArray* reqKeys =  [pairSets allKeys];
 	for ( NSString* key in reqKeys )
 	{
-		id prevVal = [[self getDefaults:arguments] stringForKey:key];
+		id prevVal = [_defaults stringForKey:key];
 		prevSets[key] = (prevVal) ? prevVal : @"";
 		
 		
 		id iVal = pairSets[key];
 		if ( iVal && ![iVal isKindOfClass:[NSNull class]] )
-			[[self getDefaults:arguments] setObject:iVal forKey:key];
+			[_defaults setObject:iVal forKey:key];
 		else
-			[[self getDefaults:arguments] removeObjectForKey:key];
+			[_defaults removeObjectForKey:key];
 	}
 	
-	[[self getDefaults:arguments] synchronize];
+	[_defaults synchronize];
 	
 	[self.commandDelegate sendPluginResult:[CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:prevSets]
 								callbackId:command.callbackId];
