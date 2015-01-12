@@ -42,16 +42,16 @@
 	else
 	{
 #if !__has_feature(objc_arc)
-		return [[[NSUserDefaults alloc] initWithSuiteName:arguments[0]] autorelease];
+		return [[[NSUserDefaults alloc] initWithSuiteName:domain] autorelease];
 #else
-		return [[NSUserDefaults alloc] initWithSuiteName:arguments[0]];
+		return [[NSUserDefaults alloc] initWithSuiteName:domain];
 #endif
 	}
 }
 
 - (void)getSetting:(CDVInvokedUrlCommand*)command
 {
-	NSMutableArray *arguments = [NSMutableArray arrayWithArray:arguments];
+	NSMutableArray *arguments = [NSMutableArray arrayWithArray:command.arguments];
 	
 	id key = arguments[0];
 	
@@ -72,7 +72,7 @@
 
 - (void)setSetting:(CDVInvokedUrlCommand*)command
 {
-	NSMutableArray *arguments = [NSMutableArray arrayWithArray:arguments];
+	NSMutableArray *arguments = [NSMutableArray arrayWithArray:command.arguments];
 	
 	id key = arguments[0];
 	
@@ -102,7 +102,7 @@
 
 - (void)querySettings:(CDVInvokedUrlCommand*)command
 {
-	NSMutableArray *arguments = [NSMutableArray arrayWithArray:arguments];
+	NSMutableArray *arguments = [NSMutableArray arrayWithArray:command.arguments];
 	
 	id ikeys = arguments[0];
 	
@@ -127,7 +127,7 @@
 
 - (void)patchSettings:(CDVInvokedUrlCommand*)command
 {
-	NSMutableArray *arguments = [NSMutableArray arrayWithArray:arguments];
+	NSMutableArray *arguments = [NSMutableArray arrayWithArray:command.arguments];
 	
 	id keyValues = arguments[0];
 	
@@ -162,7 +162,7 @@
 
 - (void)clearSettings:(CDVInvokedUrlCommand*)command
 {
-	NSMutableArray *arguments = [NSMutableArray arrayWithArray:arguments];
+	NSMutableArray *arguments = [NSMutableArray arrayWithArray:command.arguments];
 	NSString* domain = arguments[0];
 	
 	if ([domain isEqualToString:@""])
