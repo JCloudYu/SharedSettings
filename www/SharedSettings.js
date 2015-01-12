@@ -24,7 +24,7 @@
 var exec = require('cordova/exec'),
 	settingQueue = {},
 	settingsConstructor = function(settingId) { this.settingId = settingId || ""; },
-	settins = function(settingId) {
+	settings = function(settingId) {
 		return ( settingQueue[settingId] ) ? settingQueue[settingId] : ( settingQueue[settingId] = new settingsConstructor(settingId) );
 	};
 
