@@ -22,38 +22,48 @@
     SOFTWARE.
 */
 var exec = require('cordova/exec'),
-	settings = {
-		get: function(name, success ,fail) {
-			success = success || doNothing;
-			fail = fail || doNothing;
-		
-			exec(success, fail, "SharedSettings", "getSetting", [ name ]);
-		},
-		set: function(name, value, success ,fail) {
-			success = success || doNothing;
-			fail = fail || doNothing;
-		
-			exec(success, fail, "SharedSettings", "setSetting", [ name, value ]);
-		},
-		query: function(ary, success ,fail) {
-			success = success || doNothing;
-			fail = fail || doNothing;
-		
-			exec(success, fail, "SharedSettings", "querySettings", [ ary ]);
-		},
-		patch: function(dict, success ,fail) {
-			success = success || doNothing;
-			fail = fail || doNothing;
-		
-			exec(success, fail, "SharedSettings", "patchSettings", [ dict ]);
-		},
-		clear: function(success ,fail) {
-			success = success || doNothing;
-			fail = fail || doNothing;
-		
-			exec(success, fail, "SharedSettings", "clearSettings", [ ]);
-		}
+	settingQueue = {},
+	settingsConstructor = function(settingId) { this.settingId = this.settingId || ""; },
+	settins = function(settingId) {
+		return ( settingQueue[settingId] ) ? settingQueue[settingId] : ( settingQueue[settingId] = new settingsConstructor(settingId) );
 	};
+
+	settingsConstructor.prototype.get = function(name, success ,fail) {
+		success = success || doNothing;
+		fail = fail || doNothing;
+	
+		exec(success, fail, "SharedSettings", "getSetting", [ this.settingId, name ]);
+	};
+
+	settingsConstructor.prototype.set = function(name, value, success ,fail) {
+		success = success || doNothing;
+		fail = fail || doNothing;
+	
+		exec(success, fail, "SharedSettings", "setSetting", [ this.settingId, name, value ]);
+	};
+
+	settingsConstructor.prototype.query = function(ary, success ,fail) {
+		success = success || doNothing;
+		fail = fail || doNothing;
+	
+		exec(success, fail, "SharedSettings", "querySettings", [ this.settingId, ary ]);
+	};
+
+	settingsConstructor.prototype.patch = function(dict, success ,fail) {
+		success = success || doNothing;
+		fail = fail || doNothing;
+	
+		exec(success, fail, "SharedSettings", "patchSettings", [ this.settingId, dict ]);
+	};
+
+	settingsConstructor.prototype.clear = function(success ,fail) {
+		success = success || doNothing;
+		fail = fail || doNothing;
+	
+		exec(success, fail, "SharedSettings", "clearSettings", [ this.settingId ]);
+	};
+
+
 
 function doNothing(){}
 
