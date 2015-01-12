@@ -25,7 +25,6 @@
 #import <Cordova/CDV.h>
 
 @interface SharedSettings : CDVPlugin
-- (void)pluginInitialize;
 - (void)getSetting:(CDVInvokedUrlCommand*)command;
 - (void)setSetting:(CDVInvokedUrlCommand*)command;
 - (void)querySettings:(CDVInvokedUrlCommand*)command;
