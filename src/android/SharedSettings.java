@@ -27,14 +27,18 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.lang.Exception;
 import java.lang.Override;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * This class echoes a string called from JavaScript.
@@ -82,7 +86,8 @@ public class SharedSettings extends CordovaPlugin
 		try
 		{
 			String prefName = args.getString(0);
-			args.remove(0);
+			if ( android.os.Build.VERSION.SDK_INT >= 19 )
+				args.remove(0);
 			
 			if ( prefName.equals("") )
 				return this.cordova.getActivity().getPreferences(Context.MODE_PRIVATE);
@@ -95,9 +100,41 @@ public class SharedSettings extends CordovaPlugin
 		}
 	}
 	
+	public static class JSONDelegate
+	{
+		public static JSONArray remove(final int idx, final JSONArray from) 
+		{
+		    final List<JSONObject> objs = asList(from);
+		    objs.remove(idx);
+		 
+		    final JSONArray ja = new JSONArray();
+		    for (final JSONObject obj : objs) {
+		        ja.put(obj);
+		    }
+		 
+		    return ja;
+		}
+		 
+		public static List<JSONObject> asList(final JSONArray ja) 
+		{
+		    final int len = ja.length();
+		    final ArrayList<JSONObject> result = new ArrayList<JSONObject>(len);
+		    for (int i = 0; i < len; i++) {
+		        final JSONObject obj = ja.optJSONObject(i);
+		        if (obj != null) {
+		            result.add(obj);
+		        }
+		    }
+		    return result;
+		}
+	}
+	
 	private void GetSetting(JSONArray args, CallbackContext callbackContext)
 	{
 		SharedPreferences pref = this.GetPreferenceObj(args);
+		if ( android.os.Build.VERSION.SDK_INT < 19 )
+			args = JSONDelegate.remove(0, args);
+		
 		if ( pref == null )
 		{
 			callbackContext.error("Given prefrence name is invalid");
@@ -123,6 +160,9 @@ public class SharedSettings extends CordovaPlugin
 	private void SetSetting(JSONArray args, CallbackContext callbackContext)
 	{
 		SharedPreferences pref = this.GetPreferenceObj(args);
+		if ( android.os.Build.VERSION.SDK_INT < 19 )
+			args = JSONDelegate.remove(0, args);
+		
 		if ( pref == null )
 		{
 			callbackContext.error("Given prefrence name is invalid");
@@ -151,7 +191,9 @@ public class SharedSettings extends CordovaPlugin
 			String val = args.getString(1);
 			
 			if ( val == "" )
+			{
 				writer.remove(key);
+			}
 			else
 				writer.putString(key, val);
 		}
@@ -168,6 +210,8 @@ public class SharedSettings extends CordovaPlugin
 	private void QuerySettings(JSONArray args, CallbackContext callbackContext) throws JSONException
 	{
 		SharedPreferences pref = this.GetPreferenceObj(args);
+		if ( android.os.Build.VERSION.SDK_INT < 19 )
+			args = JSONDelegate.remove(0, args);
 		if ( pref == null )
 		{
 			callbackContext.error("Given prefrence name is invalid");
@@ -211,6 +255,8 @@ public class SharedSettings extends CordovaPlugin
 	public void PatchSettings(JSONArray args, CallbackContext callbackContext)
 	{
 		SharedPreferences pref = this.GetPreferenceObj(args);
+		if ( android.os.Build.VERSION.SDK_INT < 19 )
+			args = JSONDelegate.remove(0, args);
 		if ( pref == null )
 		{
 			callbackContext.error("Given prefrence name is invalid");
@@ -261,6 +307,8 @@ public class SharedSettings extends CordovaPlugin
 	public void ClearSettings(JSONArray args, CallbackContext callbackContext)
 	{
 		SharedPreferences pref = this.GetPreferenceObj(args);
+		if ( android.os.Build.VERSION.SDK_INT < 19 )
+			args = JSONDelegate.remove(0, args);
 		if ( pref == null )
 		{
 			callbackContext.error("Given prefrence name is invalid");
