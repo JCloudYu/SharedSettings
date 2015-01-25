@@ -104,28 +104,26 @@ public class SharedSettings extends CordovaPlugin
 	{
 		public static JSONArray remove(final int idx, final JSONArray from) 
 		{
-		    final List<JSONObject> objs = asList(from);
-		    objs.remove(idx);
-		 
-		    final JSONArray ja = new JSONArray();
-		    for (final JSONObject obj : objs) {
-		        ja.put(obj);
-		    }
-		 
-		    return ja;
-		}
-		 
-		public static List<JSONObject> asList(final JSONArray ja) 
-		{
-		    final int len = ja.length();
-		    final ArrayList<JSONObject> result = new ArrayList<JSONObject>(len);
-		    for (int i = 0; i < len; i++) {
-		        final JSONObject obj = ja.optJSONObject(i);
-		        if (obj != null) {
-		            result.add(obj);
-		        }
-		    }
-		    return result;
+			JSONArray result = new JSONArray();
+			int length = from.length();
+			
+			for (int i=0; i<length; i++)
+			{
+				try
+				{
+					if ( i != idx ) 
+						result.put(from.get(i));
+					else
+						continue;
+				}
+				catch(Exception e)
+				{
+					// Should never happen
+					continue;
+				}
+			}
+			
+			return result;
 		}
 	}
 	
